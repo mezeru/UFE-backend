@@ -1,0 +1,25 @@
+GET  http://localhost:5000/search?id=647eac4d868cfdb75009db71
+content-type: application/json
+
+#####
+
+GET  http://localhost:5000/all
+content-type: application/json
+
+
+
+
+#####
+
+POST  http://localhost:5000/newCeleb HTTP/1.1
+content-type: application/json
+
+{"Name":"Niko","Gender":"M", "Services": [ {"Name": "BJ", "Price": 20, "Description":"Feel like a GOD"},{"Name": "RJ", "Price": 25, "Description":"Feel like a Slave"} ] }
+
+#####
+
+POST  http://localhost:5000/newUser HTTP/1.1
+content-type: application/json
+
+{"Name":"Me","Gender":"M", "Phonenumber": 7219066155, "Email":"jermpro0@gmail.com", "Role": 1  }
+
