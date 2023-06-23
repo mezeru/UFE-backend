@@ -13,7 +13,6 @@ const serv = new mongoose.Schema({
         type: String,
         required: true
     }
-
 })
 
 const Celebs = new mongoose.Schema({
@@ -30,9 +29,13 @@ const Celebs = new mongoose.Schema({
         type: [serv],
         required: true
     },
-    Hero:{
+    Description:{
         type: String,
-        required: false
+        required: true
+    },
+    ImgUrl:{
+        type: String,
+        required: true
     }
 
 });

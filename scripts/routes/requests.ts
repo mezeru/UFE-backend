@@ -75,7 +75,9 @@ export default async (fastify,options) => {
         const Fighter = new fighterDB({
             Name: request.body.Name,
             Gender : request.body.Gender,
-            Services : request.body.Services
+            Services : request.body.Services,
+            Description: request.body.Description,
+            ImgUrl: request.body.ImgUrl
         });
 
         try{
@@ -111,5 +113,20 @@ export default async (fastify,options) => {
         }        
 
     });
+
+
+    fastify.delete('/allFighters',async (request, reply) => {
+        
+        try{
+            const resp = await fighterDB.deleteMany();
+            reply.code(200).header('Content-Type', 'application/json; charset=utf-8').send({ "Fighter": resp })
+        }
+        catch(e){
+            
+            reply.code(400).header('Content-Type', 'application/json; charset=utf-8').send({ "Sad": `${e}` });
+
+        } 
+
+    })
 
 }
