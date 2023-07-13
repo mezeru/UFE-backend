@@ -18,10 +18,11 @@ const demo = new mongoose.Schema({
         type: String,
         required: true
     },
-    Role:{
-        type: Number,
+    Password: {
+        type: String,
         required: true
     }
+
 
 });
 

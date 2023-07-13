@@ -99,7 +99,7 @@ export default async (fastify,options) => {
             Gender : request.body.Gender,
             Phonenumber : request.body.Phonenumber,
             Email : request.body.Email,
-            Role : request.body.Role
+            Password: request.body.Password
         });
 
         try{
