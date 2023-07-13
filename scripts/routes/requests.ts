@@ -114,6 +114,29 @@ export default async (fastify,options) => {
 
     });
 
+    fastify.get('/User', async (request,reply) => {
+
+        try{
+
+            console.log(request.query)
+
+            const resp = await userDB.findOne({ _id: request.query.id });
+
+
+            
+            if(resp){
+                reply.code(200).send(resp);
+            }
+
+            reply.code(404).send("Not Found");
+
+        }
+        catch(e){
+            reply.code(500).send(e);
+        }
+
+    });
+
 
     fastify.delete('/allFighters',async (request, reply) => {
         
