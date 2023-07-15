@@ -2,6 +2,7 @@ import fighterDB from "../../models/Fighter"
 import userDB from "../../models/Users"
 import sjcl from "sjcl";
 import jwt from "jsonwebtoken";
+import verifyToken from "../verifyJWT";
 require('dotenv').config();
 
 export default async (fastify,options) => {
@@ -117,28 +118,28 @@ export default async (fastify,options) => {
 
     });
 
-    // fastify.get('/User', async (request,reply) => {
+    fastify.get('/User', { preHandler: [verifyToken] } ,async (request,reply) => {
 
-    //     try{
+        try{
 
-    //         console.log(request.query)
+            console.log(request.query)
 
-    //         const resp = await userDB.findOne({ _id: request.query.id });
+            const resp = await userDB.findOne({ _id: request.query.id });
 
 
             
-    //         if(resp){
-    //             reply.code(200).send(resp);
-    //         }
+            if(resp){
+                reply.code(200).send(resp);
+            }
 
-    //         reply.code(404).send("Not Found");
+            reply.code(404).send("Not Found");
 
-    //     }
-    //     catch(e){
-    //         reply.code(500).send(e);
-    //     }
+        }
+        catch(e){
+            reply.code(500).send(e);
+        }
 
-    // });
+    });
 
     fastify.post('/login', async (request, reply) => {
 

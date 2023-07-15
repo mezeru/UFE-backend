@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const verifyToken = (req, res, next) => {
   // Get the token from the request headers, query parameter, or cookie
-  const token = req.headers.authorization;
+  const token = req.headers.authorization || req.query.token || req.cookies.token;
 
   // Check if token exists
   if (!token) {
@@ -25,4 +25,4 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-module.exports = verifyToken;
+export default verifyToken;
