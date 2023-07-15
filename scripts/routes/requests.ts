@@ -1,5 +1,8 @@
 import fighterDB from "../../models/Fighter" 
 import userDB from "../../models/Users"
+import sjcl from "sjcl";
+import jwt from "jsonwebtoken";
+require('dotenv').config();
 
 export default async (fastify,options) => {
 
@@ -114,26 +117,60 @@ export default async (fastify,options) => {
 
     });
 
-    fastify.get('/User', async (request,reply) => {
+    // fastify.get('/User', async (request,reply) => {
 
-        try{
+    //     try{
 
-            console.log(request.query)
+    //         console.log(request.query)
 
-            const resp = await userDB.findOne({ _id: request.query.id });
+    //         const resp = await userDB.findOne({ _id: request.query.id });
 
 
             
-            if(resp){
-                reply.code(200).send(resp);
+    //         if(resp){
+    //             reply.code(200).send(resp);
+    //         }
+
+    //         reply.code(404).send("Not Found");
+
+    //     }
+    //     catch(e){
+    //         reply.code(500).send(e);
+    //     }
+
+    // });
+
+    fastify.post('/login', async (request, reply) => {
+
+        try{
+            const login = await userDB.findOne({Email: request.body.Email});
+
+            if(!login){
+                reply.code(404).send({message: "User not Found"});
             }
 
-            reply.code(404).send("Not Found");
+            const myBitArray = sjcl.hash.sha256.hash(request.body.Password);
+            const myHash = sjcl.codec.hex.fromBits(myBitArray);
 
+            if(login.Password === myHash){
+
+                const id = login._id;
+                const token = jwt.sign({id}, process.env.JWTSCRT, {
+                    expiresIn: 300,
+                });
+
+
+                reply.code(200).send({message: "Authorised", token: token});
+            }
+            else{
+                reply.code(401).send({message: "Incorrect Login Credentials"});
+            }
+            
         }
         catch(e){
             reply.code(500).send(e);
         }
+
 
     });
 
