@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const verifyToken = (req, res, next) => {
   // Get the token from the request headers, query parameter, or cookie
-  const token = req.headers.authorization || req.query.token || req.cookies.token;
+  const token = req.headers.authorization;
 
   // Check if token exists
   if (!token) {
@@ -21,7 +21,7 @@ const verifyToken = (req, res, next) => {
     next();
   } catch (err) {
     // Handle token verification errors
-    return res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).send({ message: 'Invalid token' });
   }
 };
 

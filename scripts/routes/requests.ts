@@ -96,6 +96,12 @@ export default async (fastify,options) => {
 
     });
 
+    fastify.post('/verify-token', { preHandler: [verifyToken] } ,async (request, reply ) => {
+
+        reply.send(200).send({"Message": "Approved"})
+
+    })
+
     fastify.post('/newUser', async (request,reply) => {
 
         const User = new userDB({
