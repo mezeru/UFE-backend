@@ -132,11 +132,45 @@ export default async (fastify,options) => {
 
             const resp = await userDB.findOne({ _id: request.query.id });
 
+            resp.Password = false;
+
 
             
             if(resp){
                 reply.code(200).send(resp);
             }
+
+            reply.code(404).send("Not Found");
+
+        }
+        catch(e){
+            reply.code(500).send(e);
+        }
+
+    });
+
+    fastify.put('/User', { preHandler: [verifyToken] } ,async (request,reply) => {
+
+        try{
+
+            const updatedData = request.body
+
+            try{
+
+                const resp = await userDB.findOneAndUpdate({ _id: request.query.id }, updatedData,{
+                    new: true, 
+                    runValidators: true,
+                });
+
+                if(resp){
+                    reply.code(200).send(resp);
+                }
+            }
+            catch(e){
+                console.log(e);
+            }
+
+            
 
             reply.code(404).send("Not Found");
 
