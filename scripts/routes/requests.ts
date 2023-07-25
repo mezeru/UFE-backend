@@ -201,7 +201,7 @@ export default async (fastify,options) => {
                 });
 
 
-                reply.code(200).send({message: "Authorised", token: token});
+                reply.code(200).send({message: "Authorised", token: token, id: login._id});
             }
             else{
                 reply.code(401).send({message: "Incorrect Login Credentials"});
